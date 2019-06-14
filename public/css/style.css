@@ -11,7 +11,10 @@ body { background-color: rgb(129, 141, 26) }
   width: 60%;
   height: 700px;
 }
-#notes {
+#scrape {
+  float: left
+}
+#notes, #savednotes {
   float: right;
   width: 30%;
 }

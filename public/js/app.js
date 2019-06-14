@@ -3,23 +3,31 @@ $.getJSON("/headlines", data => {
       $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
     }
   });
+$(document).on("click", "#scrape", function(){
+  $.get("/scrape").then(function(data){
+    location.reload()
+  })
+})
   
 $(document).on("click", "p", function() {
   $("#notes").empty();
   let thisId = $(this).attr("data-id");
   $.ajax({
     method: "GET",
-    url: "/articles/" + thisId
+    url: "/headlines/" + thisId
   })
   .then(function(data){
     console.log(data);
+    $("#savednotes").append("<h2>" + data.note.title + "</h2>");
+    $("#savednotes").append("<p>" + data.note.body + "</p>")
     $("#notes").append("<h2>" + data.title + "</h2>");
-    $("#notes").append("<input id='titleinput' name='title' >");
-    $("#notes").append("<textarea id='bodyinput name='body'></textarea>");
-    $("#notes").append("<button data-id='" + data._id + "'id='savenote'>Post Comment</button>")
+    $("#notes").append("<input id='titleinput' name='title'>");
+    $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+    $("#notes").append("<button data-id='" + data._id + "'id='savenote'>Post Comment</button>");
+    $("#notes").append("<button data-id='" + data._id + "'id='deletenote'>Delete Comment</button>")
   if(data.note) {
     $("#titleinput").val(data.note.title);
-    $("bodyinput").val(data.note.body);
+    $("#bodyinput").val(data.note.body);
   }
   });
 });
@@ -28,13 +36,30 @@ $(document).on("click", "#savenote", function() {
   let thisId = $(this).attr("data-id");
   $.ajax({
     method: "POST",
-    url: "/articles/" + thisId,
+    url: "/headlines/" + thisId,
     data: {
       title: $("#titleinput").val(),
       body: $("#bodyinput").val(),
     }
   })
   .then(function(data){
+    console.log(data);
+    $("#notes").empty();
+  });
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});
+
+$(documet).on("click", "#deletenote", function(){
+  let thisId = $(this).attr("data-id");
+  $.ajax({
+    method: "DELETE",
+    url: "/headlines/" + thisId,
+    data: {
+      title: $("#titleinput").val(),
+      body: $("#bodyinput").val()
+    }
+  }).then(function(data){
     console.log(data);
     $("#notes").empty();
   });
