@@ -45,12 +45,13 @@ $(document).on("click", "#savenote", function() {
   .then(function(data){
     console.log(data);
     $("#notes").empty();
+    $("#savednotes").empty();
   });
   $("#titleinput").val("");
   $("#bodyinput").val("");
 });
 
-$(documet).on("click", "#deletenote", function(){
+$(document).on("click", "#deletenote", function(){
   let thisId = $(this).attr("data-id");
   $.ajax({
     method: "DELETE",
@@ -62,6 +63,7 @@ $(documet).on("click", "#deletenote", function(){
   }).then(function(data){
     console.log(data);
     $("#notes").empty();
+    $("#savednotes").empty();
   });
   $("#titleinput").val("");
   $("#bodyinput").val("");
