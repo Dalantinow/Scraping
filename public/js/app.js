@@ -1,13 +1,13 @@
 $.getJSON("/headlines", data => {
     for (var i = 0; i < data.length; i++) {
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id +  ">Save Article</button><button comment=" + data[i]._id +  ">Comment</button></p>" );
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button id='jawn' data-id='" + data[i]._id +  "'>Save Article</button><button id='comment' data-id='" + data[i]._id +  "'>Comment</button></p>" );
     }
   });
 
   $.getJSON("/headlines", data => {
     for (var i = 0; i < data.length; i++) {
       if (data.saved === true){ 
-      $("#savedarticles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id + "</p>");
+      $("#savedarticles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
     }
   }
   })
@@ -21,7 +21,7 @@ $(document).on("click", "#favorites", function(){
   window.location.href = `/favorites`
 })
 
-$(document).on("click", "jawn", function(){
+$(document).on("click", "#jawn", function(){
   let thisId = $(this).attr("data-id");
   $(this).parents("p").remove();
   $.ajax({
@@ -36,7 +36,7 @@ $(document).on("click", "jawn", function(){
   })
 })
   
-$(document).on("click", "comment", function() {
+$(document).on("click", "#comment", function() {
   $("#notes").empty();
   let thisId = $(this).attr("data-id");
   $.ajax({

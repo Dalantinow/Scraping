@@ -24,6 +24,7 @@ app.get('/', function (req, res) {
 });
 
 app.get("/scrape", (req, res) => {
+    db.Article.deleteMany({})
     axios.get("https://old.reddit.com/r/news/").then(response => {
         let $ = cheerio.load(response.data);
         let results = {}
