@@ -1,12 +1,12 @@
 $.getJSON("/headlines", data => {
     for (var i = 0; i < data.length; i++) {
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id +  ">Save Article</button></p>" );
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id +  ">Save Article</button><button comment=" + data[i]._id +  ">Comment</button></p>" );
     }
   });
 
   $.getJSON("/headlines", data => {
     for (var i = 0; i < data.length; i++) {
-      if (data.saved){ 
+      if (data.saved === true){ 
       $("#savedarticles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id + "</p>");
     }
   }
@@ -36,7 +36,7 @@ $(document).on("click", "jawn", function(){
   })
 })
   
-$(document).on("click", "p", function() {
+$(document).on("click", "comment", function() {
   $("#notes").empty();
   let thisId = $(this).attr("data-id");
   $.ajax({
