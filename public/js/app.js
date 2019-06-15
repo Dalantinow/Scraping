@@ -1,11 +1,38 @@
 $.getJSON("/headlines", data => {
     for (var i = 0; i < data.length; i++) {
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id +  ">Save Article</button></p>" );
     }
   });
+
+  $.getJSON("/headlines", data => {
+    for (var i = 0; i < data.length; i++) {
+      if (data.saved){ 
+      $("#savedarticles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<button jawn=" + data[i]._id + "</p>");
+    }
+  }
+  })
 $(document).on("click", "#scrape", function(){
   $.get("/scrape").then(function(data){
     location.reload()
+  })
+})
+
+$(document).on("click", "#favorites", function(){
+  window.location.href = `/favorites`
+})
+
+$(document).on("click", "jawn", function(){
+  let thisId = $(this).attr("data-id");
+  $(this).parents("p").remove();
+  $.ajax({
+    method: "PUT",
+    url: "/headlines/" + thisId,
+    data: {saved: true}
+  }).then(function(data){
+    console.log(data)
+    if (data.saved) {
+      location.reload()
+    }
   })
 })
   
@@ -18,8 +45,6 @@ $(document).on("click", "p", function() {
   })
   .then(function(data){
     console.log(data);
-    $("#savednotes").append("<h2>" + data.note.title + "</h2>");
-    $("#savednotes").append("<p>" + data.note.body + "</p>")
     $("#notes").append("<h2>" + data.title + "</h2>");
     $("#notes").append("<input id='titleinput' name='title'>");
     $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");

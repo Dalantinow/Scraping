@@ -35,16 +35,20 @@ app.get("/scrape", (req, res) => {
         });
         res.send("Scraped");
     });
-});
+ });
 app.get("/notes", (req, res) => {
     db.Note.find().then(dbNote => res.json(dbNote))
-    .catch(err =>res.json(err));
+    .catch(err => res.json(err));
 });
 
 app.get("/headlines", (req, res) => { 
     db.Article.find().then(dbArticle =>
     res.json(dbArticle))
     .catch(err => res.json(err));
+});
+
+app.get("/favorites", (req, res) => {
+    res.render("favorites")
 });
 
 app.get("/headlines/:id", (req, res) => {
